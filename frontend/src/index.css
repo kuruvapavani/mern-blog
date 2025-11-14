@@ -1,0 +1,589 @@
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #F4EEFF;
+  font-family: 'Montserrat', sans-serif;
+
+}
+.error{
+  background-color: red;
+  color: white;
+  text-align: center;
+}
+.dark-mode {
+  background-color: #424874;
+  color: #F4EEFF;
+}
+
+h5{
+  color: black;
+}
+:root {
+  --bright:#424874
+  --dark: #F4EEFF;
+}
+
+
+
+
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* header */
+
+
+.navbar{
+  background-color: #A6B1E1;
+  padding-bottom: 0;
+}
+li{
+  color: white !important;
+
+}
+img{
+  width: 5rem;
+}
+.layout{
+  margin-top: 7rem;
+}
+.cw {
+  text-align: center;
+  background-color: #A6B1E1;
+}
+
+.navbar-nav .nav-link {
+  white-space: nowrap;
+}
+.icons{
+  display: flex;
+  gap: 1rem;
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+/* error page */
+
+
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.error-animation {
+  width: 30rem;
+  height: 30rem;
+  background: url('./pages/error.gif') no-repeat center center; 
+  background-size: cover;
+  animation: shake 10s ease infinite;
+}
+
+@keyframes shake {
+  0% { transform: rotate(0); }
+  25% { transform: rotate(-5deg); }
+  50% { transform: rotate(5deg); }
+  75% { transform: rotate(-5deg); }
+  100% { transform: rotate(0); }
+}
+
+.error-text {
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.error-text p {
+  margin-top: 0;
+  color: #424874;
+}
+
+.error-text a {
+  text-decoration: none;
+  color: #424874;
+}
+
+a{
+  color: #A6B1E1;
+  text-decoration: none;
+}
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* posts page */
+
+@keyframes slideInFromBottom {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.post-card {
+  animation: slideInFromBottom 2s ease forwards;
+}
+
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  justify-content: center;
+}
+.posts-grid * {
+  box-sizing: border-box;
+}
+
+
+.post-card {
+  background-color: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 22rem;
+  transition: box-shadow 0.3s ease;
+}
+.post-card:hover {
+  box-shadow: 0px 0px 10px rgb(166, 177, 225, 0.9); 
+}
+
+.post-image {
+  width: 100%;
+  height: 250px;
+  object-fit: cover; 
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+
+.post-details {
+  padding: 20px;
+}
+
+.post-title {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+.post-content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.post-footer{
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+.post-avatar{
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  margin-left: 5px;
+}
+.post-profile{
+  display: flex;
+}
+.post-profile h6,p{
+  margin-left: 0.5rem;
+}
+.postLink{
+  color: black;
+  text-decoration: none;
+}
+
+button .postLink{
+  color: white;
+}
+.btn{
+  background-color: #A6B1E1 !important;
+  border: white;
+  color: white;
+  margin-bottom: 2rem;
+}
+.btn:hover{
+  color: #424874;
+}
+.post-detail{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer{
+  padding: 2rem;
+  margin-top: 18rem !important;
+  background-color: #A6B1E1;
+}
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* input */
+
+
+
+
+.input-container {
+  position: relative;
+  width: 100%; 
+  margin-bottom: 15px; 
+}
+
+.input-container input {
+  width: calc(100%);
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin-top: 2rem;
+  outline: none;
+}
+.input-container.focused input {
+  border: 2px solid #ccc;
+}
+
+.input-container label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 15px;
+  color: #999;
+  font-size: 16px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  margin-top: 2rem;
+
+}
+
+.input-container.focused label,
+.input-container input:not(:placeholder-shown) + label {
+  top: -15px;
+  left: 0;
+  background-color: white;
+  padding: 5px;
+  font-size: 12px;
+  color: #999;
+  border-color: #999;
+}
+
+
+label{
+  text-wrap: nowrap;
+}
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+/* register page */
+
+
+
+.register-form {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: white !important;
+}
+
+.register-form h2 {
+  text-align: center;
+  color: #999;
+}
+
+.register-form button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  .register-form {
+    max-width: 300px;
+  }
+}
+.small{
+  display: flex;
+  color: #999;
+  justify-content: center;
+  margin-top: 2rem; 
+}
+
+
+.login{
+  margin-top: 14rem !important;
+}
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+
+/* authors */
+.author-card {
+  background-color: white;
+  display: block;
+  width: 20rem;
+  height: auto;
+  text-align: center;
+  border-radius: 1rem;
+  margin-left: 1rem;
+  transition: box-shadow 0.3s ease;
+  color: black;
+}
+
+.author-card img {
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+
+.author-card h3 {
+  margin-top: 1.5rem;
+  margin-right: 0.5rem;
+  text-decoration: none;
+}
+
+.author-details {
+  display: flex;
+  justify-content: space-evenly;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.author-card h5 {
+  padding-bottom: 2rem !important;
+  text-decoration: none;
+}
+
+.author-card:hover {
+  box-shadow: 0 4px 8px rgb(166, 177, 225, 0.5);
+}
+
+/* profile page */
+
+.my-profile {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  height: 100vh;
+}
+
+.profile-edit {
+  margin-top: 10rem;
+  text-align: center;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 400px;
+  width: 1000%;
+}
+
+.profile-pic-container {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: 2rem;
+}
+.profile-pic {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edit-icon {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: #000;
+  color: #fff;
+  padding: 5px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-edit h3 {
+  margin-top: 1rem;
+  color: black !important;
+}
+
+.profile-form {
+  margin-top: 2rem;
+}
+
+.submit {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+
+@media screen and (max-width: 768px) {
+  .profile-edit {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .profile-edit {
+    width: 90%;
+  }
+
+  .profile-pic-container {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* my posts */
+
+.post-edit{
+  display: flex;
+  justify-content: space-around;
+}
+.no-posts{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20rem;
+}
+.no-posts .btn{
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+}
+
+
+/* -------------------------------------------------------------------------------------------------------------------------- */
+
+/* create post */
+
+.create-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 75vh;
+  width: 75vh;
+  margin: 10px;
+  background-color: white;
+  border-radius: 1rem;
+}
+.form h3{
+  color: #999;
+}
+.react-quill {
+  color: black !important;
+}
+
+.form {
+  max-width: 800px;
+  width: 100%;
+}
+
+h3 {
+  text-align: center;
+}
+
+.error {
+  text-align: center;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+}
+
+.file-upload input[type="file"] {
+  display: none;
+}
+
+.file-upload img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.btn {
+  width: 100%;
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    padding: 0 10px;
+  }
+
+  .file-upload {
+    flex-direction: column;
+  }
+
+  .file-upload button {
+    margin-top: 10px;
+  }
+}
+.error-msg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* ------------------------------------------------------------------------------------------------------------------------- */
+
+
+/* Loading spinner */
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.loader {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #A6B1E1;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
