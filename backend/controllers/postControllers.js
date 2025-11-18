@@ -5,44 +5,45 @@ import cloudinary from "../config/cloudinary.js";
 import fs from "fs";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
-
+import generatePreview from "../utils/generatePreview.js"
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 
 // ---------------------- CREATE POST ----------------------
 
 const createPost = async (req, res, next) => {
   try {
     const { title, category, description } = req.body;
+    const thumbnail = req.files?.thumbnail;
 
-    if (!title || !category || !description || !req.files?.thumbnail) {
+    if (!title || !category || !description || !thumbnail) {
       throw new HttpError("Fill all fields and upload an image", 422);
     }
-
-    const thumbnail = req.files.thumbnail;
 
     if (thumbnail.size > 2_000_000) {
       throw new HttpError("Image too big. Should be less than 2MB", 422);
     }
 
-    // Unique temp name
     const tempName = Date.now() + "_" + thumbnail.name;
     const tempPath = join(__dirname, "..", "uploads", tempName);
     await thumbnail.mv(tempPath);
 
-    // Upload to Cloudinary
     const cloudUpload = await cloudinary.uploader.upload(tempPath, {
       folder: "blog",
     });
 
-    // Delete temp file
     fs.unlinkSync(tempPath);
+
+    const previewDescription = generatePreview(description);
 
     const newPost = await Post.create({
       title,
       category,
       description,
+      previewDescription,
       thumbnail: cloudUpload.secure_url,
+      thumbnailPublicId: cloudUpload.public_id,
       authorId: req.user.id,
     });
 
@@ -61,17 +62,17 @@ const editPost = async (req, res, next) => {
     const { id } = req.params;
     const { title, description, category } = req.body;
 
-    if (!title || !category || !description || description.length < 12) {
+    if (!title || !category || !description) {
       throw new HttpError("Fill all fields correctly", 422);
     }
 
     const post = await Post.findOne({ _id: id, authorId: req.user.id });
-    if (!post) {
-      throw new HttpError("Post not found or unauthorized", 404);
-    }
+    if (!post) throw new HttpError("Post not found or unauthorized", 404);
 
     let thumbnailUrl = post.thumbnail;
+    let publicId = post.thumbnailPublicId;
 
+    // If new thumbnail uploaded
     if (req.files?.thumbnail) {
       const thumbnail = req.files.thumbnail;
 
@@ -83,6 +84,7 @@ const editPost = async (req, res, next) => {
       const tempPath = join(__dirname, "..", "uploads", tempName);
       await thumbnail.mv(tempPath);
 
+      // Upload new image
       const cloudUpload = await cloudinary.uploader.upload(tempPath, {
         folder: "blog",
       });
@@ -90,11 +92,24 @@ const editPost = async (req, res, next) => {
       fs.unlinkSync(tempPath);
 
       thumbnailUrl = cloudUpload.secure_url;
+      publicId = cloudUpload.public_id;
+
+      // Delete old image
+      await cloudinary.uploader.destroy(post.thumbnailPublicId);
     }
+
+    const previewDescription = generatePreview(description);
 
     const updatedPost = await Post.findByIdAndUpdate(
       id,
-      { title, description, category, thumbnail: thumbnailUrl },
+      {
+        title,
+        description,
+        category,
+        previewDescription,
+        thumbnail: thumbnailUrl,
+        thumbnailPublicId: publicId,
+      },
       { new: true }
     );
 
@@ -111,19 +126,12 @@ const deletePost = async (req, res, next) => {
     const { id } = req.params;
 
     const post = await Post.findById(id);
-    if (!post) {
-      throw new HttpError("Post not found", 404);
-    }
+    if (!post) throw new HttpError("Post not found", 404);
 
-    // Extract Cloudinary public_id
-    const urlParts = post.thumbnail.split("/");
-    const fileName = urlParts.pop().split(".")[0];
-    const publicId = `blog/${fileName}`;
-
-    await cloudinary.uploader.destroy(publicId);
+    // delete cloudinary file
+    await cloudinary.uploader.destroy(post.thumbnailPublicId);
 
     await Post.findByIdAndDelete(id);
-
     await User.findByIdAndUpdate(req.user.id, { $inc: { posts: -1 } });
 
     res.json("Post deleted successfully");
@@ -156,9 +164,9 @@ const authorPosts = async (req, res, next) => {
 
 const categoryPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find({ category: req.params.category }).sort({
-      createdAt: -1,
-    });
+    const posts = await Post.find({
+      category: req.params.category,
+    }).sort({ createdAt: -1 });
 
     if (!posts.length) throw new HttpError("No posts in this category", 404);
 

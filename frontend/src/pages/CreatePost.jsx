@@ -61,18 +61,30 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const postData = new FormData();
     postData.set('title', title);
     postData.set('category', category);
     postData.set('description', description);
-    postData.append('thumbnail', thumbnail);
-  
+
+    if (thumbnail) {
+      postData.append('thumbnail', thumbnail);
+    }
+
     try {
-      const response = await axios.post(`${process.env.REACT_APP_BASE_URL}/posts/create`, postData, { withCredentials: true, headers: { Authorization: `Bearer ${token}` } });
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/posts/create`,
+        postData,
+        {
+          withCredentials: true,
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
       if (response.status === 200) {
         return navigate('/');
       }
+
     } catch (err) {
       if (err.response && err.response.data && err.response.data.message) {
         setError(<><FontAwesomeIcon icon={faCircleExclamation} /> {err.response.data.message}</>);
@@ -81,7 +93,6 @@ const CreatePost = () => {
       }
     }
   };
-  
 
   const handleChooseFile = () => {
     fileInputRef.current.click();
@@ -129,7 +140,5 @@ const CreatePost = () => {
     </div>
   );
 }
-
-
 
 export default CreatePost;

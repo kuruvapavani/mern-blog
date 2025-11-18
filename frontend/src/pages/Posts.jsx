@@ -38,11 +38,11 @@ const HomePosts = () => {
               key={post._id}
               postId={post._id}
               postTitle={post.title}
-              postDescription={post.description}
+              postDescription={post.previewDescription}
               postDate={post.createdAt}
               category={post.category}
               postThumbnail={post.thumbnail}
-              author={post.author} // Pass the post author object as a prop
+              author={post.author}
               ref={index === posts.length - 1 ? lastPostRef : null}
               icons={[]}
 
