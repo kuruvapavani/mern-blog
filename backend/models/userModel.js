@@ -5,6 +5,7 @@ const userSchema=new Schema({
   email:{type:String,required:true},
   password:{type:String,required:true},
   avatar:{type:String},
+  avatarPublicId: { type: String },
   posts:{type:Number,default:0}
 })
 

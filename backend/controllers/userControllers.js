@@ -107,31 +107,32 @@ const changeAvatar = async (req, res, next) => {
       throw new HttpError("Avatar too large. Must be less than 1MB", 422);
     }
 
-    // TEMP FILE PATH
-    const tempPath = join(__dirname, "..", "uploads", avatar.name);
+    const uploadDir = join(__dirname, "..", "uploads");
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+    const tempPath = join(uploadDir, avatar.name);
     await avatar.mv(tempPath);
 
-    // UPLOAD TO CLOUDINARY
     const cloudUpload = await cloudinary.uploader.upload(tempPath, {
       folder: "avatars",
     });
 
-    // REMOVE TEMP FILE
     fs.unlinkSync(tempPath);
 
     const user = await User.findById(req.user.id);
+    if (!user) throw new HttpError("User not found", 404);
 
-    // DELETE old avatar from Cloudinary if exists
-    if (user.avatar) {
-      const urlParts = user.avatar.split("/");
-      const publicId = "avatars/" + urlParts[urlParts.length - 1].split(".")[0];
-      await cloudinary.uploader.destroy(publicId);
+    if (user.avatarPublicId) {
+      await cloudinary.uploader.destroy(user.avatarPublicId);
     }
-
-    // UPDATE USER AVATAR
+    
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
-      { avatar: cloudUpload.secure_url },
+      {
+        avatar: cloudUpload.secure_url,
+        avatarPublicId: cloudUpload.public_id,
+      },
       { new: true }
     );
 
@@ -142,6 +143,7 @@ const changeAvatar = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // ---------------------- UPDATE USER DETAILS ----------------------
 const updateDetails = async (req, res) => {
