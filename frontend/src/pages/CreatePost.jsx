@@ -89,17 +89,39 @@ const CreatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitLoading(true);
-
-    const postData = new FormData();
-    postData.set("title", title);
-    postData.set("category", category);
-    postData.set("description", description);
-
-    if (thumbnail) {
-      postData.append("thumbnail", thumbnail);
-    }
+    setError("");
 
     try {
+      let thumbnailUrl = null;
+      let thumbnailPublicUrl = null;
+
+      if (thumbnail) {
+        const formData = new FormData();
+        formData.append("file", thumbnail);
+        formData.append(
+          "upload_preset",
+          process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET
+        );
+
+        const cloudinaryRes = await axios.post(
+          `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
+          formData
+        );
+
+        thumbnailUrl = cloudinaryRes.data.secure_url;
+        thumbnailPublicUrl = cloudinaryRes.data.public_id;
+      }
+
+      // Prepare post data with Cloudinary URL
+      const postData = {
+        title,
+        category,
+        description,
+
+        thumbnail: thumbnailUrl,
+        thumbnailPublicId: thumbnailPublicUrl,
+      };
+
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/posts/create`,
         postData,
@@ -110,7 +132,7 @@ const CreatePost = () => {
       );
 
       if (response.status === 200) {
-        return navigate("/");
+        navigate("/");
       }
     } catch (err) {
       if (err.response?.data?.message) {
