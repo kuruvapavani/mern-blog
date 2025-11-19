@@ -3,8 +3,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
-import Layout from './pages/components/Layout.jsx'; // Assuming Layout.js is in the same directory
-import Home from './pages/Home.jsx'; // Example component for home page
+import Layout from './pages/components/Layout.jsx';
+import Home from './pages/Home.jsx';
 import Authors from "./pages/Authors.jsx"
 import ErrorPage from "./pages/ErrorPage.jsx"
 import PostDetail from "./pages/PostDetail.jsx"

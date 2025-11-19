@@ -10,6 +10,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import DefaultAvatar from "./default.jpg";
+import LoadingAnimation from "./components/Loader";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState(DefaultAvatar);
@@ -19,23 +20,32 @@ const UserProfile = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
-  const { currentUser } = useContext(UserContext);
 
+  const { currentUser } = useContext(UserContext);
   const userId = currentUser?.id;
   const token = currentUser?.token;
-  const navigate = useNavigate();
 
   const [avatarTouch, setAvatarTouch] = useState(false);
   const [previewAvatar, setPreviewAvatar] = useState(null);
 
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [avatarLoading, setAvatarLoading] = useState(false);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
+    if (!userId) {
+      navigate("/login");
+      return;
+    }
+
     const fetchUser = async () => {
       try {
         const response = await axios.get(
           `${process.env.REACT_APP_BASE_URL}/users/${userId}`
         );
         const { username, email, avatar } = response.data;
-
         setUsername(username);
         setEmail(email);
         setAvatar(avatar || DefaultAvatar);
@@ -54,17 +64,18 @@ const UserProfile = () => {
             </>
           );
         }
+      } finally {
+        setLoading(false);
       }
     };
 
-    if (!userId) {
-      navigate("/login");
-    } else {
-      fetchUser();
-    }
+    fetchUser();
   }, [userId, navigate]);
 
-  // Handle Avatar Selection Preview
+  if (loading || submitLoading || avatarLoading) {
+    return <LoadingAnimation />;
+  }
+
   const onAvatarSelect = (e) => {
     const file = e.target.files[0];
     setPreviewAvatar(URL.createObjectURL(file));
@@ -72,9 +83,9 @@ const UserProfile = () => {
     setAvatarTouch(true);
   };
 
-  // Upload Avatar to backend
   const handleAvatarChange = async () => {
     setAvatarTouch(false);
+    setAvatarLoading(true);
 
     try {
       const postData = new FormData();
@@ -95,11 +106,14 @@ const UserProfile = () => {
       setPreviewAvatar(null);
     } catch (error) {
       console.error("Error uploading avatar:", error);
+    } finally {
+      setAvatarLoading(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitLoading(true);
 
     const userData = new FormData();
     userData.set("username", username);
@@ -124,13 +138,14 @@ const UserProfile = () => {
         return navigate("/logout");
       }
     } catch (err) {
-      console.error("Error:", err);
       setError(
         <>
           <FontAwesomeIcon icon={faCircleExclamation} />{" "}
           {err.response?.data?.error || "An error occurred"}
         </>
       );
+    } finally {
+      setSubmitLoading(false);
     }
   };
 
@@ -138,7 +153,6 @@ const UserProfile = () => {
     <div className="my-profile">
       <form className="profile-form" onSubmit={handleSubmit}>
         <div className="profile-edit">
-          {/* Avatar Section */}
           <div className="profile-pic-container">
             <img
               src={previewAvatar || avatar || DefaultAvatar}
@@ -181,23 +195,27 @@ const UserProfile = () => {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+
           <Input
             label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
+
           <Input
             label="Old Password"
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
           />
+
           <Input
             label="New Password"
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
           />
+
           <Input
             label="Confirm New Password"
             type="password"

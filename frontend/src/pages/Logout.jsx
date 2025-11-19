@@ -1,23 +1,26 @@
-import React, { useContext, useEffect } from 'react';
-import { UserContext } from './context/userContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "./context/userContext";
+import { useNavigate } from "react-router-dom";
+import LoadingAnimation from "./components/Loader";
 
 const Logout = () => {
   const { setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    handleLogout();
+    setCurrentUser(null);
+    setTimeout(() => {
+      navigate("/login");
+    }, 500);
   }, []);
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-    navigate('/login');
-  };
+  if (loading) {
+    return <LoadingAnimation />;
+  }
 
-  return (
-    <div>Logging out...</div>
-  );
+  return null;
 };
 
 export default Logout;
