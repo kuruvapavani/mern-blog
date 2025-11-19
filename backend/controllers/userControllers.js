@@ -2,26 +2,17 @@ import HttpError from "../models/errorModel.js";
 import bcrypt from "bcryptjs";
 import User from "../models/userModel.js";
 import jwt from "jsonwebtoken";
-import fs from "fs";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
 import cloudinary from "../config/cloudinary.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 // ---------------------- REGISTER ----------------------
 const registerUser = async (req, res, next) => {
   try {
     const { username, email, password, password2 } = req.body;
-
-    if (!username || !email || !password) {
+    if (!username || !email || !password)
       throw new HttpError("Fill in all the fields", 400);
-    }
 
     const newEmail = email.toLowerCase();
     const emailExists = await User.findOne({ email: newEmail });
-
     if (emailExists) throw new HttpError("Email already exists", 409);
     if (password.length < 8)
       throw new HttpError("Password should contain at least 8 characters", 400);
@@ -46,7 +37,6 @@ const registerUser = async (req, res, next) => {
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
-
     if (!email || !password)
       return res
         .status(422)
@@ -86,64 +76,41 @@ const getUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).select("-password");
     if (!user) throw new HttpError("User not found", 404);
-
     res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 };
 
-// ---------------------- CHANGE AVATAR (CLOUDINARY) ----------------------
-
+// ---------------------- CHANGE AVATAR (Frontend uploads to Cloudinary) ----------------------
 const changeAvatar = async (req, res, next) => {
   try {
-    if (!req.files?.avatar) {
-      throw new HttpError("Please choose an image", 422);
-    }
-
-    const avatar = req.files.avatar;
-
-    if (avatar.size > 1_000_000) {
-      throw new HttpError("Avatar too large. Must be less than 1MB", 422);
-    }
-
-    const uploadDir = join(__dirname, "..", "uploads");
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
-    const tempPath = join(uploadDir, avatar.name);
-    await avatar.mv(tempPath);
-
-    const cloudUpload = await cloudinary.uploader.upload(tempPath, {
-      folder: "avatars",
-    });
-
-    fs.unlinkSync(tempPath);
+    const { avatar, avatarPublicId } = req.body;
+    if (!avatar || !avatarPublicId)
+      throw new HttpError("Avatar URL and public ID required", 422);
 
     const user = await User.findById(req.user.id);
     if (!user) throw new HttpError("User not found", 404);
 
     if (user.avatarPublicId) {
-      await cloudinary.uploader.destroy(user.avatarPublicId);
+      try {
+        await cloudinary.uploader.destroy(user.avatarPublicId);
+      } catch (err) {
+        console.error("Failed to delete old avatar:", err.message);
+      }
     }
-    
+
     const updatedUser = await User.findByIdAndUpdate(
       req.user.id,
-      {
-        avatar: cloudUpload.secure_url,
-        avatarPublicId: cloudUpload.public_id,
-      },
+      { avatar, avatarPublicId },
       { new: true }
     );
-
-    if (!updatedUser) throw new HttpError("Avatar cannot be changed", 500);
 
     res.status(200).json(updatedUser);
   } catch (error) {
     next(error);
   }
 };
-
 
 // ---------------------- UPDATE USER DETAILS ----------------------
 const updateDetails = async (req, res) => {
