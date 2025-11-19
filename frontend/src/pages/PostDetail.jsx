@@ -11,6 +11,8 @@ import {
 import DOMPurify from "dompurify";
 import { UserContext } from "./context/userContext";
 import DeletePost from "./DeletePost";
+import DefaultAvatar from "./default.jpg"
+
 
 const PostDetail = () => {
   const { currentUser } = useContext(UserContext);
@@ -98,7 +100,7 @@ const PostDetail = () => {
                   {/* CLOUDINARY AUTHOR AVATAR */}
                   <img
                     className="post-avatar"
-                    src={author.avatar || "/default-avatar.jpg"}
+                    src={author.avatar || DefaultAvatar}
                     alt="avatar"
                   />
 

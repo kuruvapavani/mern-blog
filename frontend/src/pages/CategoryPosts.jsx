@@ -62,7 +62,7 @@ const CategoryPosts = () => {
                 key={post._id}
                 postId={post._id}
                 postTitle={post.title}
-                postDescription={post.description}
+                postDescription={post.previewDescription}
                 postDate={post.createdAt}
                 category={post.category}
                 postThumbnail={post.thumbnail}

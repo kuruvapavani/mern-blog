@@ -49,7 +49,7 @@ const Authors = () => {
           <Link to={`/posts/author/${author._id}`} style={{ textDecoration: 'none' }}>
           <div key={author.id} className='author-card'>
             <div className='author-details'>
-              <img src={author.avatar ? `https://drive.google.com/thumbnail?id=${author.avatar}&sz=w1000` : DefaultAvatar} alt='author' />
+              <img src={author.avatar ? author.avatar : DefaultAvatar} alt='author' />
               <h3>{author.username}</h3>
             </div>
             <h5>{author.posts} posts</h5>
