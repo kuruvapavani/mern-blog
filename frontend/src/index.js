@@ -22,7 +22,7 @@ import UserProvider from './pages/context/userContext.js';
 import EditPost from './pages/EditPost.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';
-console.log(process.env.REACT_APP_HI);
+
 const router = createBrowserRouter([
     {
       path: "/",
