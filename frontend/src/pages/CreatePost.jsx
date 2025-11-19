@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext, useEffect } from 'react';
 import { UserContext } from "./context/userContext"
 import Input from './Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,6 +18,12 @@ const CreatePost = () => {
   const [description, setDescription] = useState('');
   const [thumbnail, setThumbnail] = useState(null);
   const fileInputRef = useRef(null);
+
+  useEffect(()=>{
+    if(!token){
+      navigate("/login");
+    }
+  },[token]);
 
   const handleCategoryChange = (e) => {
     setCategory(e.target.value);

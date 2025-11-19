@@ -23,6 +23,13 @@ const EditPost = () => {
   
   const token = currentUser?.token;
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!token){
+      navigate("/login");
+    }
+  })
+  
   const modules = {
     toolbar: [
       [{ 'header': '1'}, {'header': '2'}, { 'font': [] }],

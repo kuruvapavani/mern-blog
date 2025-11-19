@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Input from './Input';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,10 +11,18 @@ const Login = () => {
     email: "",
     password: ""
   });
+  const { currentUser } = useContext(UserContext);
+  const token = currentUser?.token;
   const [error, setError] = useState('');
   const [focused, setFocused] = useState(false);
   const { setCurrentUser } = useContext(UserContext);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(token){
+      navigate("/");
+    }
+  },[]);
 
   const handleFocus = () => {
     setFocused(true);
