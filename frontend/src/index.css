@@ -78,7 +78,7 @@ img{
 .error-animation {
   width: 30rem;
   height: 30rem;
-  background: url('./pages/error.gif') no-repeat center center; 
+  background: url('./assets/error.gif') no-repeat center center; 
   background-size: cover;
   animation: shake 10s ease infinite;
 }

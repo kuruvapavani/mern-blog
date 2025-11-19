@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import LoadingAnimation from "./components/Loader";
-import PostItem from "./PostItem";
+import LoadingAnimation from "../components/Loader";
+import PostItem from "../components/PostItem";
 
 const CategoryPosts = () => {
   const { category } = useParams();

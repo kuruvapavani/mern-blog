@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "./context/userContext";
+import { UserContext } from "../context/userContext";
 import { useNavigate } from "react-router-dom";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 
 const Logout = () => {
   const { setCurrentUser } = useContext(UserContext);

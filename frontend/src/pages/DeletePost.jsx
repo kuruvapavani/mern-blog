@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "./context/userContext";
+import { UserContext } from "../context/userContext";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -8,7 +8,7 @@ import {
   faTrashAlt,
   faCircleExclamation,
 } from "@fortawesome/free-solid-svg-icons";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 
 const DeletePost = ({ postId: id }) => {
   const navigate = useNavigate();

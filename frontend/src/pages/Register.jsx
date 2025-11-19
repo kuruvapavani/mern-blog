@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserContext } from './context/userContext';
+import { UserContext } from '../context/userContext';
 import axios from "axios";
-import Input from './Input';
+import Input from '../components/Input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 
 const Register = () => {
   const { currentUser } = useContext(UserContext);

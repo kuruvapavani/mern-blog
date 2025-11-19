@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { createBrowserRouter,RouterProvider } from 'react-router-dom';
-import Layout from './pages/components/Layout.jsx';
+import Layout from './components/Layout.jsx';
 import Home from './pages/Home.jsx';
 import Authors from "./pages/Authors.jsx"
 import ErrorPage from "./pages/ErrorPage.jsx"
@@ -18,7 +18,7 @@ import Logout from "./pages/Logout.jsx"
 import UserProfile from "./pages/UserProfile.jsx"
 import CreatePost from './pages/CreatePost.jsx';
 import "./index.css"
-import UserProvider from './pages/context/userContext.js';
+import UserProvider from './context/userContext.js';
 import EditPost from './pages/EditPost.jsx';
 import About from './pages/About.jsx';
 import Contact from './pages/Contact.jsx';

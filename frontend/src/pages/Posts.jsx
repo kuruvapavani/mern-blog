@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 import axios from "axios";
-import PostItem from "./PostItem";
+import PostItem from "../components/PostItem";
 
 const HomePosts = () => {
   const [isLoading, setIsLoading] = useState(true);

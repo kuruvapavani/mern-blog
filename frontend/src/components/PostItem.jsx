@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 import TimeAgo from "./TimeAgo";
 import DOMPurify from "dompurify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import DeletePost from "./DeletePost";
+import DeletePost from "../pages/DeletePost";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import DefaultAvatar from "./default.jpg";
+import DefaultAvatar from "../assets/default.jpg";
 
 const PostItem = ({
   postId,

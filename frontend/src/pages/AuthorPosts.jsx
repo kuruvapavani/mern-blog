@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 import axios from "axios";
-import PostItem from "./PostItem";
+import PostItem from "../components/PostItem";
 
 const AuthorPosts = () => {
   const { authorId } = useParams();

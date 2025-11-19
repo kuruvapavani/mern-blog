@@ -1,11 +1,11 @@
 import React, { useState, useContext, useEffect } from "react";
-import Input from "./Input";
+import Input from "../components/Input";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "./context/userContext";
-import LoadingAnimation from "./components/Loader";
+import { UserContext } from "../context/userContext";
+import LoadingAnimation from "../components/Loader";
 
 const Login = () => {
   const [userData, setUserData] = useState({

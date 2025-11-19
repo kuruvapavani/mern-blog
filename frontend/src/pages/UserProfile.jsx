@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
-import { UserContext } from "./context/userContext";
-import Input from "./Input";
+import { UserContext } from "../context/userContext";
+import Input from "../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faPenToSquare,
@@ -9,8 +9,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import DefaultAvatar from "./default.jpg";
-import LoadingAnimation from "./components/Loader";
+import DefaultAvatar from "../assets/default.jpg";
+import LoadingAnimation from "../components/Loader";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState(DefaultAvatar);

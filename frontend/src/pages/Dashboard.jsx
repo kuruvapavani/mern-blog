@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { UserContext } from './context/userContext';
+import { UserContext } from '../context/userContext';
 import { useNavigate } from 'react-router-dom';
 import { faPencil, faTrashAlt, faEye } from '@fortawesome/free-solid-svg-icons';
-import PostItem from './PostItem';
+import PostItem from '../components/PostItem';
 import axios from 'axios';
-import LoadingAnimation from './components/Loader';
+import LoadingAnimation from '../components/Loader';
 
 const Dashboard = () => {
   const [posts, setPosts] = useState([]);

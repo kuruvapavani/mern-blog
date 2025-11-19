@@ -1,6 +1,6 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
-import { UserContext } from "./context/userContext";
-import Input from "./Input";
+import { UserContext } from "../context/userContext";
+import Input from "../components/Input";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTimesCircle,
@@ -10,7 +10,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 
 const EditPost = () => {
   const { id } = useParams();

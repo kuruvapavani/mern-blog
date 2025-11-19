@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
-import LoadingAnimation from './components/Loader';
+import LoadingAnimation from '../components/Loader';
 
 const Contact = () => {
   const [name, setName] = useState('');

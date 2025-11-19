@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import LoadingAnimation from "./components/Loader";
+import LoadingAnimation from "../components/Loader";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleExclamation } from "@fortawesome/free-solid-svg-icons";
-import DefaultAvatar from "./default.jpg";
+import DefaultAvatar from "../assets/default.jpg";
 
 const Authors = () => {
   const [isLoading, setIsLoading] = useState(true);
