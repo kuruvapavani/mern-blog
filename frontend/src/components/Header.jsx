@@ -34,7 +34,7 @@ const Header = () => {
     <nav className={`navbar navbar-expand-lg fixed-top ${isDarkMode ? 'dark-navbar' : 'light-navbar'}`} id='navbar'>
       <div className="container d-flex justify-content-space-around align-items-center">
         <div className="navbar-brand">
-          <Link to="/"><img src={Logo} alt='logo' style={{ height: "5rem", width: "auto" }} /></Link>
+          <Link to="/"><img src={Logo} alt='logo' style={{ height: "4rem", width: "auto" }} /></Link>
         </div>
         <div className='icons'>
           <button className="nav-link" onClick={toggleDarkMode}>
